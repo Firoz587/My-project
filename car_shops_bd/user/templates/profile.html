@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <div class="mb-5">
+        <nav class="nav nav-pills nav-fill">
+            <a class="nav-link fs-5 active" aria-current="page" href="{% url 'profile' %}">Order History</a>
+            <a class="nav-link fs-5" href="{% url 'update_profile' %}">Update Profile</a>
+            <a class="nav-link fs-5" href="{% url 'change_password' %}">Change Password</a>
+            <a class="nav-link fs-5" href="{% url 'reset_password' %}">Reset Password</a>
+        </nav>
+    </div>
+    <div>
+        <h2 class="mb-4 fw-bold">Order History</h2>        
+        {% if orders %}
+            <div>
+                <h4>Total Orders: {{orders|length}}</h4>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 my-3">
+                    {% for order in orders %}
+                        <div class="col">
+                            <div class="card">
+                                <div>
+                                    <img src="{{order.car.image.url}}" class="card-img-top" alt="{{order.car.title}}">
+                                </div>
+                                <div class="card-header">
+                                    <h4 class="card-title fw-bold">
+                                        <a href="{% url 'view_car' order.car.id %}" class="text-decoration-none text-black">{{order.car.title}}</a>
+                                    </h4>
+                                    <h6 class="card-subtitle mt-2" style="font-size:17px;">
+                                        Brand: <a href="{% url 'brand_wise_cars' order.car.brand.slug %}" class="text-decoration-none text-black">{{order.car.brand}}</a>
+                                    </h6>
+                                </div>
+                                <div class="card-body">                    
+                                    <p class="card-text mb-1">
+                                        {{order.car.description|truncatewords:20}}
+                                        <a href="{% url 'view_car' order.car.id %}">See More</a>
+                                    </p>
+                                    <div>
+                                        <h5 class="mt-3 fw-semibold">$ {{order.car.price}} x 1</h5>
+                                        <h6>Bought on <b>{{order.purchased_on|date}}</b></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div>
+                <h4>Nothing to show here</h4>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

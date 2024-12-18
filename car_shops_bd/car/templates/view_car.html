@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <div class="row g-3">
+        <div class="col-12 col-lg-7">
+            <img src="{{car.image.url}}" alt="{{car.title}}" style="width: 100%">
+        </div>
+        <div class="col-12 col-lg-5">            
+            <div class="p-3 d-flex flex-column justify-content-between" style="height: 100%;">
+                <div>
+                    <h2 class="fw-bold">{{car.title}}</h2>
+                    <h4>Brand: {{car.brand}}</h4>
+                </div>
+                <div class="mb-3">
+                    <h4 class="text-success fw-bold">Price: $ {{car.price}}</h4>
+                    <h5 class="mb-4">Quantity: {{car.quantity}} Pcs</h5>
+                    <a href="{% url 'buy_now' car.id %}" class="btn btn-dark px-4">Buy <b>{{car.title}}</b> Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="p-4">
+            <div class="mb-5">
+                <h4 class="mb-3">Descripiton</h4>
+                <p style="white-space: pre-wrap; font-size: 17px;">{{car.description|safe}}</p>
+            </div>
+            <div>
+                <h4 class="mb-4"><b>{{car.title}}</b> Review ({{comments|length}})</h4>
+                <div class="mb-4">
+                    {% for comment in comments %}
+                        <div class="card mb-3">
+                            <div class="card-header py-2">
+                                <h5 class="fw-semibold mb-1">{{comment.name}}</h5>
+                                <p class="mb-0">{{comment.created_on|timesince}} ago</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">{{comment.comment}}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div>
+                    <div class="card">
+                        <div class="card-header py-2">
+                            <h5 class="mb-0">Leave a Review</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{comment_form|crispy}}
+                                <button class="btn btn-dark px-5">Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

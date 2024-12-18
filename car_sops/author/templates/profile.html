@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<div>
+  <h1>Welcome To Profile</h1>
+  <h1>Hello <b>{{user}}</b></h1>
+  <a class="btn btn-primary" href="{% url 'edit_profile' %}">
+    Edit Your Profile</a
+  >
+</div>
+<div class="d-flex flex-wrap justify-content-center px-5 pt-5">
+  {% for post in data %}
+  <div class="col-sm-3">
+    <div class="card m-2">
+      <div class="card-body">
+        <img src="{{post.image.url}}" class="card-img-top" alt="...">
+        <h5 class="card-title text-decoration-none text-dark">Name : {{post.title}}</h5>
+        <p class="card-text">Price : {{post.price}} Taka</p>
+        <p class="card-text">Brand : {{post.brand}}</p>
+        <p>Author : {{post.author.first_name}} {{post.author.last_name}}</p>
+        <a href="{% url 'edit_post' post.id %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'delete_post' post.id %}" class="btn btn-danger"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

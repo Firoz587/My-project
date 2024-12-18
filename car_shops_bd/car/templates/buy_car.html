@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+   <div class="alert alert-{{tag}}" role="alert">
+        {{msg}}
+    </div>
+    <div class="mt-5">
+        <img src="{{car.image.url}}" alt="{{car.title}}" style="height: 300px;">
+        <h2 class="fw-bold my-3">{{car.title}}</h2>
+        <h5>Price: ${{car.price}}</h5>
+        <h5>Quantity: {{car.quantity}} Pcs</h5>
+    </div>
+    <div class="d-flex justify-content-start align-items-center gap-3 mt-4">        
+        <a href="{% url 'home' %}" class="btn btn-success text-decoration-none">Buy More Car</a>
+        <a href="{% url 'profile' %}" class="btn btn-success text-decoration-none">Profile</a>
+    </div>
+</div>
+{% endblock %}

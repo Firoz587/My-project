@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section>
+    <div class="row row-cols-1 row-cols-lg-2 mb-5" style="min-height: 600px;">
+        <div class="col-12 col-lg-6 d-flex align-items-center">
+            <div class="px-3">
+                <h1 class="mb-3 fw-semibold">ROYAL'S CAR</h1>
+                <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas accusamus et in nostrum. Iste delectus, placeat facilis libero architecto distinctio neque laboriosam eum consequatur eaque laborum fugit expedita modi, minima, ut ab dolorum dignissimos quibusdam natus animi? Voluptatum ratione sequi eius laboriosam veniam! Aspernatur molestiae maiores magnam soluta optio, voluptates odio, ex consectetur deleniti non labore velit et? Rem enim obcaecati, corrupti perspiciatis ducimus excepturi soluta hic illum repellat vero?</p>
+                {% if user.is_authenticated %}
+                    <button class="btn btn-dark mb-4">Buy Your Favorite Car</button>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-dark mb-4">Buy Your Favorite Car</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 d-flex align-items-center px-3">
+            <img src="{% static '../static/images/firoz.avif' %}" alt="Background Image" style="width: 100%;">
+        </div>
+    </div>
+    <div class="d-flex justify-content-center flex-wrap gap-3 mt-5">
+        {% for brand in brands %}
+            <a href="{% url 'brand_wise_cars' brand.slug %}" class="btn btn-dark text-decoration-none text-white px-4" style="font-size: 17px;">
+                {{brand}}
+            </a>
+        {% endfor %}
+    </div>   
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3 my-5">
+        {% for car in cars %}
+            <div class="col">
+                <div class="card">
+                    {% if car.image %}
+                        <div>
+                            <img src="{{car.image.url}}" class="card-img-top" alt="{{car.title}}">
+                        </div>
+                    {% endif %}
+                    <div class="card-header">
+                        <h4 class="card-title fw-bold">
+                            <a href="{% url 'view_car' car.id %}" class="text-decoration-none text-black">{{car.title}}</a>
+                        </h4>                        
+                        <h6 class="card-subtitle mt-2" style="font-size:17px;">
+                            Brand: <a href="{% url 'brand_wise_cars' car.brand.slug %}" class="text-decoration-none text-black">{{car.brand}}</a>
+                        </h6>
+                    </div>
+                    <div class="card-body">                    
+                        <p class="card-text mb-1">
+                            {{car.description|truncatewords:20}}
+                            <a href="{% url 'view_car' car.id %}">See More</a>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <h5>Price</h5>
+                            <h5 class="fw-semibold">$ {{car.price}}</h5>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <div>
+                                <a href="{% url 'buy_now' car.id %}" class="btn btn-dark w-100">Buy Now</a>
+                            </div> 
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
