@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from . import forms
 from car.models import Purchase
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def signup(request):
     if request.method == 'POST':
@@ -36,7 +37,8 @@ class UserLoginView(LoginView):
         context['heading'] = 'Login to Your Account'
         context['btn_text'] = 'Login'
         return context    
-@login_required 
+@login_required
+@csrf_exempt
 def profile(request):
     orders = Purchase.objects.filter(user=request.user).order_by('-purchased_on')
     return render(request, 'profile.html', {'orders': orders})

@@ -15,7 +15,7 @@
                 <div class="mb-3">
                     <h4 class="text-success fw-bold">Price: $ {{car.price}}</h4>
                     <h5 class="mb-4">Quantity: {{car.quantity}} Pcs</h5>
-                    <a href="{% url 'buy_now' car.id %}" class="btn btn-dark px-4">Buy <b>{{car.title}}</b> Now</a>
+                    <a href="{% url 'buy_now' id=car.id %}" class="btn btn-dark px-4">Buy <b>{{car.title}}</b> Now</a>
                 </div>
             </div>
         </div>

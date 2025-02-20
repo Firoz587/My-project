@@ -17,8 +17,10 @@ class Car(models.Model):
 class Purchase(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
     quantity = models.PositiveIntegerField()
     purchased_on = models.DateTimeField(auto_now_add=True)
+
     
     def __str__(self):
         return f"{self.user.username} bought {self.quantity} of {self.car.title}"
